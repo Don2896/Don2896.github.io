@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donald Okorejior — Data &amp; Quantitative Analysis</title>
+<meta name="description" content="Portfolio of data analysis and quantitative research projects by Donald Okorejior — fraud detection, crypto risk, FX monitoring, and sports analytics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0c10;
+    --surface: #12151b;
+    --border: #262b35;
+    --border-soft: #1c2029;
+    --text: #e7e4dc;
+    --text-dim: #8a8f99;
+    --text-faint: #565b66;
+    --accent: #c2a878;
+    --accent-soft: rgba(194,168,120,0.14);
+    --pos: #8faf95;
+    --neg: #b1795f;
+    --max-w: 920px;
+  }
+
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg: #f4f2ec;
+      --surface: #ffffff;
+      --border: #ddd8cb;
+      --border-soft: #e7e3d6;
+      --text: #1c1a15;
+      --text-dim: #5c584d;
+      --text-faint: #948e7d;
+      --accent: #93692f;
+      --accent-soft: rgba(147,105,47,0.10);
+      --pos: #4c7a5c;
+      --neg: #a4573a;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg: #f4f2ec;
+    --surface: #ffffff;
+    --border: #ddd8cb;
+    --border-soft: #e7e3d6;
+    --text: #1c1a15;
+    --text-dim: #5c584d;
+    --text-faint: #948e7d;
+    --accent: #93692f;
+    --accent-soft: rgba(147,105,47,0.10);
+    --pos: #4c7a5c;
+    --neg: #a4573a;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background .3s ease, color .3s ease;
+  }
+
+  a{ color: inherit; }
+
+  .mono{ font-family: "IBM Plex Mono", ui-monospace, monospace; }
+
+  .wrap{
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .header-inner{
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand{
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+  }
+  nav{
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+  }
+  nav a{
+    text-decoration: none;
+    color: var(--text-dim);
+    transition: color .15s ease;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+  }
+  nav a:hover{ color: var(--text); border-bottom-color: var(--accent); }
+
+  .theme-toggle{
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.85rem;
+    transition: border-color .15s ease, color .15s ease;
+  }
+  .theme-toggle:hover{ border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding: 88px 0 56px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .hero-eyebrow{
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin: 0 0 22px;
+  }
+  .hero-eyebrow .loc{ color: var(--text-faint); }
+  h1{
+    font-family: "Fraunces", serif;
+    font-weight: 500;
+    font-size: clamp(2.1rem, 4.6vw, 3.15rem);
+    line-height: 1.14;
+    letter-spacing: -0.01em;
+    margin: 0 0 22px;
+    max-width: 15ch;
+  }
+  h1 em{
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .hero-sub{
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    max-width: 58ch;
+    margin: 0 0 40px;
+  }
+
+  /* ticker strip */
+  .ticker{
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: var(--surface);
+  }
+  .ticker-cell{
+    padding: 16px 18px;
+    border-right: 1px solid var(--border);
+  }
+  .ticker-cell:last-child{ border-right: none; }
+  .ticker-val{
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--text);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .ticker-val.pos{ color: var(--pos); }
+  .ticker-label{
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    letter-spacing: 0.01em;
+  }
+
+  @media (max-width: 680px){
+    .ticker{ grid-template-columns: repeat(2, 1fr); }
+    .ticker-cell:nth-child(2){ border-right: none; }
+    .ticker-cell{ border-bottom: 1px solid var(--border); }
+    .ticker-cell:nth-last-child(-n+2){ border-bottom: none; }
+  }
+
+  /* ---------- section shell ---------- */
+  section{ padding: 64px 0; border-bottom: 1px solid var(--border-soft); }
+  section:last-of-type{ border-bottom: none; }
+  .section-head{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  h2{
+    font-family: "Fraunces", serif;
+    font-weight: 500;
+    font-size: 1.6rem;
+    margin: 0;
+  }
+  .section-note{
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.76rem;
+    color: var(--text-faint);
+  }
+
+  /* ---------- project dossiers ---------- */
+  .project{
+    display: grid;
+    grid-template-columns: 230px 1fr;
+    gap: 32px;
+    padding: 32px 0;
+    border-top: 1px solid var(--border-soft);
+  }
+  .project:first-child{ border-top: 1px solid var(--border); padding-top: 0; }
+
+  .project-meta{ display: flex; flex-direction: column; gap: 10px; }
+  .project-name{
+    font-family: "Fraunces", serif;
+    font-size: 1.28rem;
+    font-weight: 500;
+    line-height: 1.25;
+    margin: 0;
+  }
+  .project-kind{
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    color: var(--text-faint);
+  }
+  .tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .tag{
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  .project-body p{ margin: 0 0 14px; color: var(--text-dim); font-size: 0.96rem; }
+  .project-body p:last-of-type{ margin-bottom: 18px; }
+  .project-body strong{ color: var(--text); font-weight: 500; }
+
+  .finding{
+    display: flex;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--accent-soft);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 3px 3px 0;
+    margin-bottom: 18px;
+    font-size: 0.9rem;
+  }
+  .finding .fmark{
+    font-family: "IBM Plex Mono", monospace;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .project-links{
+    display: flex;
+    gap: 18px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+  }
+  .project-links a{
+    text-decoration: none;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2px;
+    transition: border-color .15s ease, color .15s ease;
+  }
+  .project-links a:hover{ color: var(--accent); border-color: var(--accent); }
+
+  @media (max-width: 700px){
+    .project{ grid-template-columns: 1fr; gap: 14px; }
+  }
+
+  /* ---------- approach ---------- */
+  .approach-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .approach-col h3{
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem;
+    text-transform: none;
+    color: var(--text-faint);
+    margin: 0 0 16px;
+    font-weight: 400;
+  }
+  .stack-list{ list-style: none; margin: 0; padding: 0; }
+  .stack-list li{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-top: 1px solid var(--border-soft);
+    font-size: 0.92rem;
+  }
+  .stack-list li:first-child{ border-top: none; }
+  .stack-list .role{ color: var(--text-faint); font-family: "IBM Plex Mono", monospace; font-size: 0.75rem; }
+
+  .approach-prose p{ color: var(--text-dim); font-size: 0.96rem; margin: 0 0 16px; }
+  .approach-prose strong{ color: var(--text); font-weight: 500; }
+
+  @media (max-width: 700px){
+    .approach-grid{ grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* ---------- footer ---------- */
+  footer{ padding: 56px 0 72px; }
+  .footer-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 28px;
+    margin-bottom: 36px;
+  }
+  footer h2{ max-width: 22ch; font-size: 1.5rem; }
+  .contact-links{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.88rem;
+  }
+  .contact-links a{
+    text-decoration: none;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    display: inline-block;
+    width: fit-content;
+    padding-bottom: 1px;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  .contact-links a:hover{ color: var(--accent); border-color: var(--accent); }
+  .footer-bottom{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-soft);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ transition: none !important; }
+  }
+
+  ::selection{ background: var(--accent-soft); color: var(--text); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">Donald Okorejior</div>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#approach">Approach</a>
+      <a href="#contact">Contact</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme" title="Toggle color theme">◐</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="hero-eyebrow">Implementations Analyst, Edenred <span class="loc">— London</span></p>
+    <h1>Turning transaction and market data into <em>decision-ready</em> signal.</h1>
+    <p class="hero-sub">I build analysis pipelines end to end — from raw data to flagged risk, clustered behaviour, and quantified findings. Currently deepening the maths and machine learning behind that work, with a focus on markets and systematic strategy.</p>
+
+    <div class="ticker">
+      <div class="ticker-cell">
+        <span class="ticker-val">2,512</span>
+        <span class="ticker-label">transactions screened for fraud</span>
+      </div>
+      <div class="ticker-cell">
+        <span class="ticker-val pos">0.8+</span>
+        <span class="ticker-label">BTC–ETH correlation under stress</span>
+      </div>
+      <div class="ticker-cell">
+        <span class="ticker-val">7/10</span>
+        <span class="ticker-label">top PL scorers outperforming xG</span>
+      </div>
+      <div class="ticker-cell">
+        <span class="ticker-val pos">1.382</span>
+        <span class="ticker-label">Sharpe ratio, max-Sharpe portfolio</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="section-head">
+      <h2>Selected work</h2>
+      <span class="section-note">6 projects</span>
+    </div>
+
+    <div class="project">
+      <div class="project-meta">
+        <p class="project-kind">Quantitative investment · six-block pipeline</p>
+        <h3 class="project-name">Factor-Driven Portfolio Construction</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">Factor models</span>
+          <span class="tag">Monte Carlo</span>
+          <span class="tag">VaR</span>
+          <span class="tag">Bayesian rebalancing</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <p>A complete quantitative investment system, not a single technique in isolation: <strong>six analytical blocks run end to end</strong> on a real ten-asset portfolio (NVDA, TSLA, PLTR, GOOGL, MSFT, JPM, JNJ, XOM, GLD, SPY) across 817 trading days, 2020–2023. The thesis under test — that an AI/growth overweight beats a diversified book — is examined with evidence rather than assumed.</p>
+        <p>A three-factor regression (market, value/growth spread, oil) decomposes each asset's return before Modern Portfolio Theory optimisation, 10,000-path Monte Carlo simulation, historical-vs-analytical VaR comparison, and a rolling-window Bayesian-style rebalancing step that lets allocations respond to regime change. <strong>Every assumption violation is documented, not glossed over</strong> — all ten assets reject normality at p = 0, and the pipeline proceeds with that limitation stated plainly rather than hidden in a footnote.</p>
+        <div class="finding">
+          <span class="fmark mono">→</span>
+          <span>Max-Sharpe optimisation reached a 1.382 Sharpe ratio against 0.846 equal-weight; the 34-percentage-point gap between historical (57.70%) and analytical (23.35%) 99% VaR quantifies the real cost of assuming normal returns; rolling rebalancing rotated ExxonMobil from 60% to 0% allocation as the energy supercycle reversed.</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/Don2896/factor-driven-portfolio-construction/blob/main/00_README.md" target="_blank" rel="noopener">Summary ↗</a>
+          <a href="https://github.com/Don2896/factor-driven-portfolio-construction/blob/main/01_PROJECT_NARRATIVE.md" target="_blank" rel="noopener">Full narrative ↗</a>
+          <a href="https://github.com/Don2896/factor-driven-portfolio-construction/blob/main/data_and_return_analysis.ipynb" target="_blank" rel="noopener">Notebook ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-meta">
+        <p class="project-kind">Financial risk · unsupervised ML</p>
+        <h3 class="project-name">Fraud Detection in Bank Transactions</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag">PCA</span>
+          <span class="tag">DBSCAN</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <p>An unsupervised pipeline for surfacing fraudulent bank transactions <strong>without labelled data</strong> — built on 2,512 simulated transaction records across 495 accounts and 43 locations. Rule-based flags for suspicious timing, location, and amount feed a PCA decomposition and K-Means / DBSCAN clustering to separate genuine anomalies from noise.</p>
+        <p>A Euclidean-distance risk score in PCA space ranks transactions by how extreme their combined anomalies are — <strong>catching high-risk cases that simple flag-counting missed</strong>, since some of the highest-scoring transactions carried only a single rule-based flag.</p>
+        <div class="finding">
+          <span class="fmark mono">→</span>
+          <span>2,378 of 2,512 transactions were flagged as suspicious by the rule layer; three distinct behavioural clusters and a continuous risk score narrowed that pool to the cases worth investigating first.</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/Don2896/Data-Projects/blob/main/FraudDetection.md" target="_blank" rel="noopener">Write-up ↗</a>
+          <a href="https://github.com/Don2896/Data-Projects/blob/main/fraudDetection.ipynb" target="_blank" rel="noopener">Notebook ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-meta">
+        <p class="project-kind">Portfolio risk · diversification</p>
+        <h3 class="project-name">Bitcoin &amp; Ethereum: Volatility, Correlation &amp; Diversification</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">pandas</span>
+          <span class="tag">Log returns</span>
+          <span class="tag">Rolling stats</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <p>Framed as a decision memo for a client weighing crypto exposure: <strong>does holding both BTC and ETH actually diversify a portfolio, or are they the same bet twice?</strong> Daily GBP-denominated closing prices were converted to log returns to keep volatility and correlation measures stationary and comparable.</p>
+        <p>30-day rolling volatility and correlation were computed across the full history, then re-examined specifically during high-volatility stress regimes — the periods where diversification actually matters.</p>
+        <div class="finding">
+          <span class="fmark mono">→</span>
+          <span>BTC–ETH correlation sits above 0.8 in normal conditions and climbs toward ~0.9 during stress — the two assets behave as one correlated risk position, not independent diversifiers.</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/Don2896/Data-Projects/blob/main/crypto_currency_analysis.md" target="_blank" rel="noopener">Write-up ↗</a>
+          <a href="https://github.com/Don2896/Data-Projects/blob/main/crypto_risk_analysis.ipynb" target="_blank" rel="noopener">Notebook ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-meta">
+        <p class="project-kind">Systems · live data pipeline</p>
+        <h3 class="project-name">FX Monitor</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">Streamlit</span>
+          <span class="tag">pytest</span>
+          <span class="tag">Rules engine</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <p>A config-driven monitoring and alerting pipeline for live FX rates — the piece of the portfolio built for production rather than analysis. It ingests exchange-rate data, <strong>persists a time-series history, computes movement signals, and applies threshold-based rules</strong> to decide when a rate move is worth flagging.</p>
+        <p>Built out with a Streamlit dashboard with auto-refresh, email alerts via <code>smtplib</code>, environment-variable credential management, and a pytest suite — the operational scaffolding around the analytics, not just the analytics itself.</p>
+        <div class="finding">
+          <span class="fmark mono">→</span>
+          <span>Demonstrates the full loop: API integration, data validation, a rules engine, and run-level logging — the shape of a monitoring system, not a one-off notebook.</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/Don2896/FX_Monitor" target="_blank" rel="noopener">Repository ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-meta">
+        <p class="project-kind">Sports analytics · exploratory</p>
+        <h3 class="project-name">Premier League Player Performance</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">seaborn</span>
+          <span class="tag">xG / xA</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <p>An exploratory analysis of Premier League output by position, using expected-goals and expected-assists as an efficiency lens rather than raw totals. Passing accuracy and volume were examined separately to separate <strong>chance creation</strong> from <strong>possession control</strong> — the two roles get judged on different metrics for good reason.</p>
+        <p>The framing throughout is recruitment-relevant: a striker scoring below xG may be riding chance volume rather than finishing quality, which matters more the more you're paying for the shirt.</p>
+        <div class="finding">
+          <span class="fmark mono">→</span>
+          <span>7 of the league's top 10 scorers outperformed their xG; every one of the top 10 assist providers outperformed xA — Son Heung-min and Harry Kane stood out as the most efficient overperformers.</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/Don2896/Data-Projects/blob/main/PremierLeagueAnalysis.md" target="_blank" rel="noopener">Write-up ↗</a>
+          <a href="https://github.com/Don2896/Data-Projects/blob/main/PremierLeagueAnalysis.ipynb" target="_blank" rel="noopener">Notebook ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-meta">
+        <p class="project-kind">Sports analytics · visualisation</p>
+        <h3 class="project-name">Haaland — Shot Analysis, 2022/23</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">mplsoccer</span>
+          <span class="tag">matplotlib</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <p>Shot-level event data from Understat is used to map every Erling Haaland shot from his debut Premier League season, sized by xG and coloured by outcome, to test a hypothesis: that Manchester City's system narrowed his shot profile into a tighter, higher-quality zone than his earlier career.</p>
+        <p>The point of the project was less the football and more the workflow — <strong>cleaning coordinate data, scaling it to a pitch reference frame, and building a visualisation that makes a spatial pattern legible</strong> at a glance rather than burying it in a table.</p>
+        <div class="finding">
+          <span class="fmark mono">→</span>
+          <span>Shots cluster tightly between the goalposts and the edge of the box; high-xG chances concentrate in that same zone, and goals outpaced xG — evidence of a penalty-box role and efficient finishing.</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/Don2896/Data-Projects/blob/main/HaalandShotsPrem2022.ipynb" target="_blank" rel="noopener">Notebook ↗</a>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="approach">
+    <div class="section-head">
+      <h2>Approach</h2>
+      <span class="section-note">stack &amp; direction</span>
+    </div>
+    <div class="approach-grid">
+      <div class="approach-col approach-prose">
+        <h3>Why this portfolio</h3>
+        <p>My background is analytical rather than academic-CS: a neuroscience degree grounded in quantitative research methods, followed by operational roles coordinating client data migrations and cost analysis. These projects are where I've taught myself to formalise that instinct — turning "something looks off in this data" into a repeatable, defensible process.</p>
+        <p>I'm working through a structured maths-and-ML curriculum in parallel — <strong>linear algebra, statistics, and applied ML</strong> — aimed specifically at the quantitative and systematic side of finance, where the fraud-detection and crypto-correlation work above sit closest to the target.</p>
+      </div>
+      <div class="approach-col">
+        <h3>Current stack</h3>
+        <ul class="stack-list">
+          <li><span>Python</span><span class="role mono">core</span></li>
+          <li><span>pandas / NumPy</span><span class="role mono">data</span></li>
+          <li><span>scikit-learn</span><span class="role mono">ML</span></li>
+          <li><span>matplotlib / seaborn</span><span class="role mono">viz</span></li>
+          <li><span>Streamlit</span><span class="role mono">delivery</span></li>
+          <li><span>SQL</span><span class="role mono">functional</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="footer-top">
+      <h2>Open to data science and quantitative analyst roles — particularly finance and fintech.</h2>
+      <div class="contact-links">
+        <a href="mailto:donaldokorejior@gmail.com">donaldokorejior@gmail.com</a>
+        <a href="https://github.com/Don2896" target="_blank" rel="noopener">github.com/Don2896</a>
+        <a href="https://www.linkedin.com/in/donald-okorejior-b90194170/" target="_blank" rel="noopener">linkedin.com/in/donald-okorejior</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Donald Okorejior — London, UK</span>
+      <span id="year"></span>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  (function(){
+    var toggle = document.getElementById('themeToggle');
+    var root = document.documentElement;
+    var stored = null;
+    try { stored = localStorage.getItem('theme'); } catch(e) {}
+    if(stored === 'light' || stored === 'dark'){ root.setAttribute('data-theme', stored); }
+
+    toggle.addEventListener('click', function(){
+      var current = root.getAttribute('data-theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var effectiveCurrent = current || (prefersDark ? 'dark' : 'light');
+      var next = effectiveCurrent === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch(e) {}
+    });
+  })();
+</script>
+
+</body>
+</html>
